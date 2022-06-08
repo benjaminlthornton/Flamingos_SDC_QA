@@ -1,1 +1,1 @@
-# Flamingos_SDC_QA_db
+# flamingos_sdc_qa_db
