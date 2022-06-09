@@ -106,6 +106,18 @@ const AnswersPhotos = sequelize.define('AnswersPhotos', {
   timestamps: false,
 });
 
+const Question = (data) => (
+  {
+    question_id: data.id,
+    question_body: data.body,
+    question_date: new Date(Number(data.date_written)).toISOString(),
+    asker_name: data.asker_name,
+    question_helpfulness: data.helpful,
+    reported: Boolean(data.reported),
+    answers: {},
+  }
+);
+
 const getQuestionsByProductId = (product_id) => (
   Questions.findAll({
     where: {
