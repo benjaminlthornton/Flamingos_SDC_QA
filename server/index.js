@@ -13,7 +13,6 @@ app.listen(port);
 console.log('listening on port:', port)
 
 app.get('/:question', (req, res) => {
-  console.log(req.query.product_id)
   if (Number.isNaN(Number(req.query.product_id))) {
     res.sendStatus(404);
   } else {

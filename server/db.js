@@ -50,7 +50,7 @@ const questions = sequelize.define('questions', {
   timestamps: false,
 });
 
-const Answers = sequelize.define('Answers', {
+const answers = sequelize.define('Answers', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -88,7 +88,7 @@ const Answers = sequelize.define('Answers', {
   timestamps: false,
 });
 
-const AnswersPhotos = sequelize.define('AnswersPhotos', {
+const answersPhotos = sequelize.define('AnswersPhotos', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -106,15 +106,26 @@ const AnswersPhotos = sequelize.define('AnswersPhotos', {
   timestamps: false,
 });
 
-const Question = (data) => (
+const QuestionFormat = (data) => (
   {
     question_id: data.id,
     question_body: data.body,
     question_date: new Date(Number(data.date_written)).toISOString(),
     asker_name: data.asker_name,
     question_helpfulness: data.helpful,
-    reported: (data.reported),
+    reported: Boolean(data.reported),
     answers: {},
+  }
+);
+
+const AnswerFormat = (data) => (
+  {
+    id: data.id,
+    body: data.body,
+    date: new Date(Number(data.date_written)).toISOString(),
+    answerer_name: data.answerer_name,
+    helpfulness: data.helpful,
+    photos: [],
   }
 );
 
@@ -125,11 +136,13 @@ const getQuestionsByProductId = (product_id) => (
       reported: false,
     },
   })
-  .then((response) => response.map(Question))
+  .then((response) => response.map(QuestionFormat))
   .catch((err) => {
     console.log('Error retrieving questions by id: getQuestionsById', err);
   })
 )
+
+// const get
 
 
 module.exports = {
