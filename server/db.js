@@ -12,7 +12,7 @@ sequelize.authenticate()
   console.error('Error establishing connection with db:', err)
 });
 
-const Questions = sequelize.define('Questions', {
+const questions = sequelize.define('questions', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -113,13 +113,13 @@ const Question = (data) => (
     question_date: new Date(Number(data.date_written)).toISOString(),
     asker_name: data.asker_name,
     question_helpfulness: data.helpful,
-    reported: Boolean(data.reported),
+    reported: (data.reported),
     answers: {},
   }
 );
 
 const getQuestionsByProductId = (product_id) => (
-  Questions.findAll({
+  questions.findAll({
     where: {
       product_id,
       reported: false,
@@ -130,3 +130,8 @@ const getQuestionsByProductId = (product_id) => (
     console.log('Error retrieving questions by id: getQuestionsById', err);
   })
 )
+
+
+module.exports = {
+  getQuestionsByProductId,
+}

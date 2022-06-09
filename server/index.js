@@ -12,14 +12,19 @@ app.listen(port);
 
 console.log('listening on port:', port)
 
-app.get('/:qid', (req, res) => {
-  db.getById(req.params.qid)
+app.get('/:question', (req, res) => {
+  console.log(req.query.product_id)
+  if (Number.isNaN(Number(req.query.product_id))) {
+    res.sendStatus(404);
+  } else {
+    db.getQuestionsByProductId(req.query.product_id)
   .then((data) => {
     res.send(data);
   })
   .catch((err) => {
     console.log('error retrieving question ids: index.js', err);
     res.end();
-  })
+  });
+}
 })
 
