@@ -6,12 +6,14 @@
   "author": "Benjamin Thornton <benjamin.l.thornton@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-promise-router": "^4.1.1",
     "node-postgres": "^0.6.2",
     "nodemon": "^2.0.16",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "sequelize": "^6.20.1"
   }
 }
