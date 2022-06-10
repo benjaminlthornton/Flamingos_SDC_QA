@@ -12,7 +12,7 @@ sequelize.authenticate()
   console.error('Error establishing connection with db:', err)
 });
 
-const questions = sequelize.define('questions', {
+const Questions = sequelize.define('questions', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -50,7 +50,7 @@ const questions = sequelize.define('questions', {
   timestamps: false,
 });
 
-const answers = sequelize.define('Answers', {
+const Answers = sequelize.define('Answers', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -88,7 +88,7 @@ const answers = sequelize.define('Answers', {
   timestamps: false,
 });
 
-const answersPhotos = sequelize.define('AnswersPhotos', {
+const AnswersPhotos = sequelize.define('AnswersPhotos', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -129,8 +129,9 @@ const AnswerFormat = (data) => (
   }
 );
 
+
 const getQuestionsByProductId = (product_id) => (
-  questions.findAll({
+  Questions.findAll({
     where: {
       product_id,
       reported: false,
@@ -138,13 +139,79 @@ const getQuestionsByProductId = (product_id) => (
   })
   .then((response) => response.map(QuestionFormat))
   .catch((err) => {
-    console.log('Error retrieving questions by id: getQuestionsById', err);
+    console.log('Error db.getQuestionsById', err);
   })
 )
 
-// const get
+const getPhotosByAnswerId = (answer_id) => (
+  AnswersPhotos.findAll({
+    attributes: ['answer_id', 'url'],
+    where: {
+      answer_id,
+    },
+  })
+  .then((response) => response)
+  .catch((err) => {
+    console.log('Error db.getPhotosByAnswerId', err)
+  })
+);
 
+const getAnswersByQuestionId = (question_id) => {
+  const answers = {};
+  return Answers.findAll({
+    attributes: ['id', 'body', 'date_written', 'answerer_name', 'helpful'],
+    where: {
+      question_id,
+      reported: false,
+    },
+  })
+  .then((response) => {
+    const photosArr = [];
+    response.forEach((ans) => {
+      answers[ans.id] = Answer(ans);
+      photosArr.push(getPhotosByAnswerId(ans.id));
+    });
+    return Promise.all(photosArr)
+  })
+  .then((response) => {
+    response.forEach((photoArray) => {
+      photoArray.forEach((photo) => {
+        answers[photo.answer_id].photos.push(photo.url);
+      });
+    });
+    return answers;
+  })
+  .catch((err) => {
+    console.log('Error in db.getAnswersByAnswerId', err);
+  });
+}
+
+const getQAbyProductId = (product_id) => {
+  let results = [];
+
+  return getQuestionsByProductId(product_id)
+  .then((res) => {
+    qaResult = res;
+    const promiseArray = [];
+    qaResult.forEach((q) => {
+      promiseArray.push(getAnswersByQuestionId(q.question_id));
+    });
+    return Promise.all(promiseArray);
+  })
+  .then((res) => {
+    res.forEach((answerArr, i) => {
+      qaResult[i].answers = answerArr;
+    });
+    return qaResult;
+  })
+  .catch((err) => {
+    console.log('Error in db.getQAbyProductId', err)
+  })
+}
 
 module.exports = {
   getQuestionsByProductId,
+  getPhotosByAnswerId,
+  getAnswersByQuestionId,
+  getQAbyProductId,
 }
