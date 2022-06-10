@@ -16,7 +16,11 @@
     "pg": "^8.7.3",
     "sequelize": "^6.20.1"
   },
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "jest": "^28.1.1"
+  },
   "scripts": {
-    "server": "nodemon --watch server ./server/"
+    "server-dev": "nodemon --watch server ./server/"
   }
 }

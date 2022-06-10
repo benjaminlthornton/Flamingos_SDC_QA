@@ -1,4 +1,29 @@
 # flamingos_sdc_qa_db
+# QA
+
+QA supports the SuperNova shopping app by handling queries for Questions and Answers.
+
+## Installation
+
+### Pre Instillation Requirements
+```
+node v16.15.0
+yarn v1.22.18
+```
+## Environment Variables
+
+QA uses [dotenv](https://www.npmjs.com/package/dotenv)
+
+Update the Port and Auth variables in the `example.env`file found in the main directory.
+
+1. Install dependencies"
+  ```
+  yarn install
+  ```
+2. Start Development Server:
+  ```
+  yarn server-dev
+  ```
 
 Created db using pgadmin. The following are screenshots on the structure and proof the data is in the tables.
 ![answers_table](https://user-images.githubusercontent.com/100874788/172733657-f2111724-8378-4094-be98-d3142e96f533.png)
