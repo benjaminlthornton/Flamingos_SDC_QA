@@ -10,13 +10,13 @@ app.use(express.json());
 app.use(cors());
 app.listen(port);
 
-console.log('listening on port:', port)
+console.log('listening on port:', port);
 
-app.get('/:question', (req, res) => {
+app.get('/qa/questions/', (req, res) => {
   if (Number.isNaN(Number(req.query.product_id))) {
     res.sendStatus(404);
   } else {
-    db.getQuestionsByProductId(req.query.product_id)
+    db.getQAbyProductId(req.query.product_id)
   .then((data) => {
     res.send(data);
   })
@@ -27,3 +27,17 @@ app.get('/:question', (req, res) => {
 }
 })
 
+app.get('/qa2/:product_id', (req, res) => {
+  if (Number.isNaN(Number(req.query.product_id))) {
+    res.sendStatus(404);
+  } else {
+    db.getQAbyProductId2(req.query.product_id)
+  .then((data) => {
+    res.send(data);
+  })
+  .catch((err) => {
+    console.log('error retrieving question ids: index.js', err);
+    res.end();
+  });
+}
+})

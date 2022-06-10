@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const Promise = require('bluebird');
 require('dotenv').config();
 
@@ -12,7 +12,7 @@ sequelize.authenticate()
   console.error('Error establishing connection with db:', err)
 });
 
-const Questions = sequelize.define('questions', {
+const Questions = sequelize.define('Questions', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -88,7 +88,7 @@ const Answers = sequelize.define('Answers', {
   timestamps: false,
 });
 
-const AnswersPhotos = sequelize.define('AnswersPhotos', {
+const Photos = sequelize.define('Photos', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -132,6 +132,7 @@ const AnswerFormat = (data) => (
 
 const getQuestionsByProductId = (product_id) => (
   Questions.findAll({
+    attributes: ['id', 'body', 'date_written', 'asker_name', 'helpful'],
     where: {
       product_id,
       reported: false,
@@ -144,7 +145,7 @@ const getQuestionsByProductId = (product_id) => (
 )
 
 const getPhotosByAnswerId = (answer_id) => (
-  AnswersPhotos.findAll({
+  Photos.findAll({
     attributes: ['answer_id', 'url'],
     where: {
       answer_id,
@@ -168,7 +169,7 @@ const getAnswersByQuestionId = (question_id) => {
   .then((response) => {
     const photosArr = [];
     response.forEach((ans) => {
-      answers[ans.id] = Answer(ans);
+      answers[ans.id] = AnswerFormat(ans);
       photosArr.push(getPhotosByAnswerId(ans.id));
     });
     return Promise.all(photosArr)
@@ -182,7 +183,7 @@ const getAnswersByQuestionId = (question_id) => {
     return answers;
   })
   .catch((err) => {
-    console.log('Error in db.getAnswersByAnswerId', err);
+    console.log('Error in db.getAnswersByQuestionId', err);
   });
 }
 

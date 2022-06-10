@@ -24,7 +24,7 @@ Update the Port and Auth variables in the `example.env`file found in the main di
   ```
   yarn server-dev
   ```
-
+# PgAdmin SQL set up
 Created db using pgadmin. The following are screenshots on the structure and proof the data is in the tables.
 ![answers_table](https://user-images.githubusercontent.com/100874788/172733657-f2111724-8378-4094-be98-d3142e96f533.png)
 ![photos_table](https://user-images.githubusercontent.com/100874788/172733665-4754e9a0-0939-46d0-8beb-2cd05636f742.png)
