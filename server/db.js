@@ -234,7 +234,7 @@ const getQAbyProductId = (product_id) => {
 }
 
 // combining above process into on query in outer join, using parameter from business docs
-const getQAbyProductId2 = (product_id, page=1, count=5) => {
+const getQAbyProductId2 = (product_id, page, count) => {
   const qaResults = [];
   const offset = (page - 1 * count)
   const limit = count;
