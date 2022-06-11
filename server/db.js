@@ -306,10 +306,28 @@ const getAnswersByQuestionId2 = (question_id, page, count) => {
   });
 }
 
+const addQuestion = (body, name, email, product_id) => ()
+
+const addAnswer = (question_id, body, name, email.photos) => ()
+
+const setQuestionHelpful = (question_id) => ()
+
+const reportQuestion = (question_id) => ()
+
+const setAnswerHelpful = (answer_id) => ()
+
+const reportAnswer = (answer_id) => ()
+
 module.exports = {
   getQuestionsByProductId,
   getAnswersByQuestionId,
   getAnswersByQuestionId2,
   getQAbyProductId,
   getQAbyProductId2,
+  addQuestion,
+  addAnswer,
+  setQuestionHelpful,
+  reportQuestion,
+  setAnswerHelpful,
+  reportAnswer,
 }
