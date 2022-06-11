@@ -306,17 +306,98 @@ const getAnswersByQuestionId2 = (question_id, page, count) => {
   });
 }
 
-const addQuestion = (body, name, email, product_id) => ()
+const addQuestion = (body, name, email, product_id) => (
+  Question.create({
+    product_id,
+    body,
+    date_written: Date.now()
+  })
+)
 
-const addAnswer = (question_id, body, name, email.photos) => ()
+const addAnswer = (question_id, body, name, email, photos) => (
+  Answers.findOne({
+    where: {
+      question_id,
+      body: null,
+    },
+  })
+  .then((data) => {
+    if (data) {
+      return Answers.update({
+        body,
+        date_written: Date.now(),
+        answerer_name: name,
+        answerer_email: email,
+        reported: false,
+        helpful: 0,
+      },
+      {
+        where: {
+          id: data.id
+        },
+      });
+    }
+    return Answers.create({
+      question_id,
+      body,
+      date_written: Date.now(),
+      answerer_name: name,
+      answerer_email: email,
+      reported: false,
+      helpful: 0,
+    });
+  })
+  .then((data) => {
+    if (photos) {
+    const photoArray = photos.map((url) => (
+      Photos.create({
+        answer_id: data.id,
+        url,
+      })
+    ));
+    return Promise.all(photoArray);
+    }
+  })
+)
 
-const setQuestionHelpful = (question_id) => ()
 
-const reportQuestion = (question_id) => ()
+const setQuestionHelpful = (question_id) => (
+  Question.increment('helpful', {
+    where: {
+      id: question_id,
+    }
+  })
+);
 
-const setAnswerHelpful = (answer_id) => ()
+const reportQuestion = (question_id) => (
+  Questions.update({
+    reported: true,
+  },
+  {
+    where: {
+      id: question_id,
+    },
+  })
+)
 
-const reportAnswer = (answer_id) => ()
+const setAnswerHelpful = (answer_id) => (
+  Answers.increment('helpful', {
+    where: {
+      id: answer_id,
+    }
+  })
+)
+
+const reportAnswer = (answer_id) => (
+  Answers.update({
+    reported: true,
+  },
+  {
+    where: {
+      id: answer_id
+    },
+  })
+);
 
 module.exports = {
   getQuestionsByProductId,
