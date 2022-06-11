@@ -15,7 +15,7 @@ sequelize.authenticate()
 const Questions = sequelize.define('Questions', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true,
     primaryKey: true,
   },
   product_id: {
@@ -53,7 +53,7 @@ const Questions = sequelize.define('Questions', {
 const Answers = sequelize.define('Answers', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true,
     primaryKey: true,
   },
   question_id: {
@@ -91,7 +91,7 @@ const Answers = sequelize.define('Answers', {
 const Photos = sequelize.define('Photos', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true,
     primaryKey: true,
   },
   answer_id: {
@@ -310,8 +310,23 @@ const addQuestion = (body, name, email, product_id) => (
   Question.create({
     product_id,
     body,
-    date_written: Date.now()
+    date_written: Date.now(),
+    asker_name: name,
+    asker_email: email,
+    reported: false,
+    helpful: 0,
   })
+  .then((data) => (
+    Answer.create({
+      question_id: data.id,
+      body: null,
+      date_written: null,
+      answerer_name: null,
+      answerer_email: null,
+      reported: null,
+      helpful: null,
+    })
+  ))
 )
 
 const addAnswer = (question_id, body, name, email, photos) => (
