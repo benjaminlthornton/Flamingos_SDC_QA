@@ -27,11 +27,11 @@ app.get('/qa/questions/', (req, res) => {
 }
 })
 
-app.get('/qa2/:product_id', (req, res) => {
+app.get('/qa2/questions/', (req, res) => {
   if (Number.isNaN(Number(req.query.product_id))) {
     res.sendStatus(404);
   } else {
-    db.getQAbyProductId2(req.query.product_id)
+    db.getQAbyProductId(req.query.product_id)
   .then((data) => {
     res.send(data);
   })
