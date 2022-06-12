@@ -35,6 +35,8 @@
     "webpack-dev-server": "^4.9.2"
   },
   "scripts": {
-    "server-dev": "nodemon --watch server ./server/"
+    "server-dev": "nodemon --watch server ./server/",
+    "unit-test": "jest --watch",
+    "stress-test": "k6 run ./testing/k6testing.js"
   }
 }
