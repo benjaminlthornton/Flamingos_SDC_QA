@@ -19,10 +19,13 @@ app.get('/qa/questions', (req, res) => {
   } else {
     db.getQAbyProductId(req.query.product_id)
       .then((data) => {
-        res.send(data);
+        res.status(200).send({
+          product_id,
+          data,
+        });
       })
       .catch((err) => {
-        console.log('error retrieving question ids: index.js', err);
+        console.log('error GET questions2', err);
         res.end();
       });
   }
@@ -37,10 +40,13 @@ app.get('/qa/questions2', (req, res) => {
   } else {
     db.getQAbyProductId2(req.query.product_id, page, count)
       .then((data) => {
-        res.send(data);
+        res.status(200).send({
+          product_id,
+          data,
+        });
       })
       .catch((err) => {
-        console.log('error retrieving question ids: index.js', err);
+        console.log('error GET questions2', err);
         res.end();
       });
   }
@@ -84,7 +90,7 @@ app.post('/qa/questions', (res, req) => {
         res.sendStatus(201);
       })
       .catch((err) => {
-        console.log('POST server /questions')
+        console.log('POST server /questions', err);
       });
   }
 });
@@ -102,7 +108,7 @@ app.post('qa/questions/:question_id/answers', (req, res) => {
         res.sendStatus(201);
       })
       .catch((err) => {
-        console.log('POST server /answers', err)
+        console.log('POST app /answers', err);
       });
   }
 });
@@ -118,7 +124,7 @@ app.put('qa/questions/:question_id/report', (req, res) => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        console.log('PUT server /question_id/report', err);
+        console.log('PUT app /question_id/report', err);
         res.sendStatus(500);
       });
   }
@@ -135,7 +141,7 @@ app.put('qa/questions/:question_id/helpful', (req, res) => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        console.log('PUT server /question_id/helpful', err);
+        console.log('PUT app /question_id/helpful', err);
         res.sendStatus(500);
       });
   }
@@ -152,7 +158,7 @@ app.put('qa/answers/:answer_id/report', (req, res) => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        console.log('PUT server /answer_id/report', err);
+        console.log('PUT app /answer_id/report', err);
         res.sendStatus(500);
       });
   }
@@ -169,7 +175,7 @@ app.put('qa/answers/:answer_id/report', (req, res) => {
         res.sendStatus(204);
       })
       .catch((err) => {
-        console.log('PUT server /answer_id/helpful', err);
+        console.log('PUT app /answer_id/helpful', err);
         res.sendStatus(500);
       });
   }
