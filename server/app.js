@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-app.get('/qa/questions', (req, res) => {
+app.get('/qa/questions2', (req, res) => {
   // convert params into numbers
   const product_id = Number(req.query.product_id);
   const page = Number(req.query.page) || 1;
@@ -31,7 +31,7 @@ app.get('/qa/questions', (req, res) => {
   }
 });
 
-app.get('/qa/questions2', (req, res) => {
+app.get('/qa/questions', (req, res) => {
   const product_id = Number(req.query.product_id);
   const page = Number(req.query.page) || 1;
   const count = Number(req.query.count) || 5;

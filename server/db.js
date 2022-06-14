@@ -340,19 +340,21 @@ const addAnswer = (question_id, body, name, email, photos) => (
   })
     .then((data) => {
       if (data) {
-        return Answers.update({
-          body,
-          date_written: Date.now(),
-          answerer_name: name,
-          answerer_email: email,
-          reported: false,
-          helpful: 0,
-        },
-        {
-          where: {
-            id: data.id
+        return Answers.update(
+          {
+            body,
+            date_written: Date.now(),
+            answerer_name: name,
+            answerer_email: email,
+            reported: false,
+            helpful: 0,
           },
-        });
+          {
+            where: {
+              id: data.id,
+            },
+          },
+        );
       }
       return Answers.create({
         question_id,
