@@ -11,6 +11,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-promise-router": "^4.1.1",
+    "forever": "^4.0.3",
     "node-postgres": "^0.6.2",
     "nodemon": "^2.0.16",
     "pg": "^8.7.3",
@@ -36,6 +37,7 @@
   },
   "scripts": {
     "server-dev": "nodemon --watch server ./server/",
+    "forever-server": "forever start ./server/index.js",
     "unit-test": "jest --watch",
     "stress-test": "k6 run ./testing/k6testing.js"
   }
