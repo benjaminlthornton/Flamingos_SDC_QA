@@ -6,7 +6,7 @@ require('dotenv').config();
 //   logging: false,
 // });
 
-const sequelize = new Sequelize(`postgres://${process.env.cloudUser}:${process.env.cloudPassword}@${process.env.cloudURL}:${process.env.pgPORT}/flamingos_qa`, {
+const sequelize = new Sequelize(`postgres://${process.env.cloudUser}:${process.env.cloudPass}@${process.env.cloudURL}:${process.env.pgPORT}/flamingos_qa`, {
   logging: false,
 });
 
