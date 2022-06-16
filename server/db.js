@@ -282,16 +282,18 @@ const getQAbyProductId2 = (product_id, page, count) => {
 
 const getAnswersByQuestionId2 = (question_id, page, count) => {
   const photoResults = [];
-  const offset = (page - 1 * count);
+  const offset = (page * count) - count;
   const limit = count;
-  return sequelize.query(`SELECT "Answers".id AS answer_id, "Answers".body AS answer_body, "Answers".date_written AS answer_date, "Answers".answerer_name, "Answers".helpful AS answer_helpfulness, "Photos".id AS photo_id, "Photos".url from (SELECT * from "Answers" WHERE "Answers".question_id = ${question_id} AND "Answers".reported = false ORDER BY "Answers".id limit ${limit} OFFSET ${offset}) "Answers" LEFT OUTER JOIN "Photos" ON "Answers".id = "Photos".photo_id;`, {
+  return sequelize.query(`SELECT "Answers".id AS answer_id, "Answers".body AS answer_body, "Answers".date_written AS answer_date, "Answers".answerer_name, "Answers".helpful AS answer_helpfulness, "Photos".id AS photo_id, "Photos".url from (SELECT * from "Answers" WHERE "Answers".question_id = ${question_id} AND "Answers".reported = false ORDER BY "Answers".id limit ${limit} OFFSET ${offset}) "Answers" LEFT OUTER JOIN "Photos" ON "Answers".id = "Photos".answer_id;`, {
     type: QueryTypes.select,
   })
-    .then((res) => {
+    .then((response) => {
+      res = response[0];
       let j = 0;
       let k;
       while (j < res.length) {
         k = j;
+        // console.log(res[j])
         const answer = AnswerFormatJoin(res[j]);
         while (k < res.length && res[k].answer_id === res[j].answer_id) {
           if (res[k].url) {
@@ -308,7 +310,7 @@ const getAnswersByQuestionId2 = (question_id, page, count) => {
       return photoResults;
     })
     .catch((err) => {
-      console.log('Error in db.getPhotosByAnswerId2', err);
+      console.log('Error in db.getAnswersbyQuestionsId2', err);
     });
 };
 

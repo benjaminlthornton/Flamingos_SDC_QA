@@ -9,6 +9,10 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
+app.get('/loaderio-62a308d9bb69e93535541f66e7bec37e', (req, res) => {
+  res.send('loaderio-62a308d9bb69e93535541f66e7bec37e');
+});
+
 app.get('/qa/questions2', (req, res) => {
   // convert params into numbers
   const product_id = Number(req.query.product_id);
@@ -52,7 +56,7 @@ app.get('/qa/questions', (req, res) => {
   }
 });
 
-app.get('/qa/questions/:questions_id/answers', (req, res) => {
+app.get('/qa/questions/:question_id/answers', (req, res) => {
   const question_id = Number(req.params.question_id);
   const page = Number(req.query.page) || 1;
   const count = Number(req.query.count) || 5;
@@ -83,7 +87,7 @@ app.post('/qa/questions', (res, req) => {
   if (Number.isNaN(product_id) || typeof body !== 'string'
   || typeof name !== 'string' || typeof email !== 'string'
   || body.length === 0 || name.length === 0 || email.length === 0) {
-    res.sendStatus(404)
+    res.sendStatus(404);
   } else {
     db.addQuestion(body, name, email, product_id)
       .then(() => {
